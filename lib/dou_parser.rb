@@ -39,14 +39,14 @@ class DouParser
     events = @page.at('.first-job-events')
     events_names = events.css('.b-postcard .title a').map { |el| el.children[1].values.last }
     events_links = events.css('.b-postcard .title a').map { |el| el.values.first }
-    events_hash = events_names.zip(events_links).to_h
+    events_names.zip(events_links).to_h
   end
 
   def parsed_vacancies
     vacancies = @page.at('.first-job-vacancies')
     vacancies_names = vacancies.css('.l-vacancy .title .vt').map { |el| el.children.text }
     vacancies_links = vacancies.css('.l-vacancy .title .vt').map { |el| el['href'] }
-    vacancies_hash = vacancies_names.zip(vacancies_links).to_h
+    vacancies_names.zip(vacancies_links).to_h
   end
 
   def events_result(events)
