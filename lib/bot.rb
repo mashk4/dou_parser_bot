@@ -12,6 +12,11 @@ Telegram::Bot::Client.run(TOKEN) do |bot|
         chat_id: message.chat.id,
         text: "Hey, honey! Please write a programming language or technology you're looking for."
       )
+    when '/stop'
+      bot.api.send_message(
+        chat_id: message.chat.id,
+        text: "Bye, #{message.from.first_name}. See ya!"
+      )
     else
       bot.api.send_message(
         chat_id: message.chat.id,
@@ -22,4 +27,3 @@ Telegram::Bot::Client.run(TOKEN) do |bot|
     end
   end
 end
-

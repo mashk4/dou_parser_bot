@@ -7,20 +7,21 @@ class DouParser
     options = { http_proxyaddr: ENV['PROXY_ADDR'],
                 http_proxyport: ENV['PROXY_PORT'],
                 http_proxyuser: ENV['PROXY_USER'],
-                http_proxypass: ENV['PROXY_PASS']
-              }
+                http_proxypass: ENV['PROXY_PASS'] }
 
-    responce = HTTParty.get(
+    response = HTTParty.get(
       url,
       options
     )
-    @page = Nokogiri::HTML(responce.body)
+    @page = Nokogiri::HTML(response.body)
   end
 
   def result(language)
-    res = ""
+    return 'Sorry, I don\'t understand you. Send me language/technology name.' if language.nil?
+
+    res = ''
     events_include_lang = parsed_events.keys.select { |el| el.downcase.match(/\b#{language.downcase}\b/) }
-    vacancies_include_lang = parsed_vacancies.keys.select { |el| el.downcase.match(/\b#{language.downcase}\b/)}
+    vacancies_include_lang = parsed_vacancies.keys.select { |el| el.downcase.match(/\b#{language.downcase}\b/) }
     if events_include_lang.empty? && vacancies_include_lang.empty?
       'Sorry, there are no events or vacancies for this language/technology for now :('
     else
@@ -50,7 +51,7 @@ class DouParser
   end
 
   def events_result(events)
-    res = ""
+    res = ''
     res << "<b>Events</b>: #{events.size}\n"
     parsed_events.each do |key, value|
       res << "\u{1F4A5} #{key}: #{value}\n" if events.include?(key)
@@ -59,7 +60,7 @@ class DouParser
   end
 
   def vacancies_result(vacancies)
-    res = ""
+    res = ''
     res << "<b>Vacancies</b>: #{vacancies.size}\n"
     parsed_vacancies.each do |key, value|
       res << "\u{1F4A5} #{key}: #{value}\n" if vacancies.include?(key)
@@ -67,4 +68,3 @@ class DouParser
     res
   end
 end
-
